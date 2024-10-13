@@ -1,0 +1,128 @@
+.orders-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .orders-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .orders-table-container {
+    overflow-x: auto;
+  }
+  
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .orders-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }
+  
+  .status-given {
+    background-color: #ffeeba;
+    color: #856404;
+  }
+  
+  .status-received {
+    background-color: #b8daff;
+    color: #004085;
+  }
+  
+  .status-paid {
+    background-color: #c3e6cb;
+    color: #155724;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-edit {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-save {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-add {
+    background-color: #17a2b8;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .btn:hover {
+    opacity: 0.8;
+  }
+  
+  .status-select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .add-entry-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .form-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .btn-submit {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .orders-table th,
+    .orders-table td {
+      padding: 8px;
+    }
+  
+    .btn {
+      padding: 6px 12px;
+      font-size: 0.8em;
+    }
+  
+    .status-badge {
+      padding: 3px 8px;
+      font-size: 0.8em;
+    }
+  }
