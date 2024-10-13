@@ -11,7 +11,6 @@ export default function Orders() {
   const [showAddEntryForm, setShowAddEntryForm] = useState(false);
 
   useEffect(() => {
-    // Fetch orders from the API
     const fetchOrders = async () => {
       try {
         const response = await fetch('https://home-backend-0zfs.onrender.com/orders');
@@ -34,12 +33,27 @@ export default function Orders() {
     setNewStatus(orders[index].status);
   };
 
-  const handleSaveClick = (index) => {
-    const updatedOrders = [...orders];
-    updatedOrders[index].status = newStatus;
-    setOrders(updatedOrders);
-    setEditingIndex(null);
-    setNewStatus('');
+  const handleSaveClick = async (index) => {
+    try {
+      const updatedOrder = { ...orders[index], status: newStatus };
+      const response = await fetch(`https://home-backend-0zfs.onrender.com/update-order/${orders[index]._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedOrder),
+      });
+
+      if (response.ok) {
+        const updatedOrders = [...orders];
+        updatedOrders[index] = updatedOrder;
+        setOrders(updatedOrders);
+        setEditingIndex(null);
+        setNewStatus('');
+      } else {
+        console.error('Failed to update order');
+      }
+    } catch (error) {
+      console.error('Error updating order:', error);
+    }
   };
 
   const handleStatusChange = (e) => {
@@ -60,8 +74,8 @@ export default function Orders() {
         headers: { 'Content-Type': 'application/json' },
       });
       if (response.ok) {
-        const savedOrder = await response.json(); // Assuming the backend returns the newly created order
-        setOrders([...orders, savedOrder]); // Update orders with the newly added order
+        const savedOrder = await response.json();
+        setOrders([...orders, savedOrder]);
         setNewDate('');
         setNewClothes('');
         setNewSaree('');
@@ -77,56 +91,59 @@ export default function Orders() {
   return (
     <div className="orders-container">
       <h2 className="orders-title">Orders</h2>
-      {orders.length>0?
-      <div className="orders-table-container">
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Items</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={index}>
-                <td>{order.date.slice(0,10)}</td>
-                <td>
-                  <div>Clothes: {order.clothes}</div>
-                  <div>Saree: {order.saree}</div>
-                </td>
-                <td>
-                  {editingIndex === index ? (
-                    <select 
-                      value={newStatus} 
-                      onChange={handleStatusChange}
-                      className="status-select"
-                    >
-                      <option value="Given">Given</option>
-                      <option value="Received">Received</option>
-                      <option value="Paid">Paid</option>
-                    </select>
-                  ) : (
-                    <span className={`status-badge status-${order.status.toLowerCase()}`}>
-                      {order.status}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {editingIndex === index ? (
-                    <button onClick={() => handleSaveClick(index)} className="btn btn-save">Save</button>
-                  ) : (
-                    <button onClick={() => handleEditClick(index)} className="btn btn-edit">Edit</button>
-                  )}
-                </td>
+      {orders.length > 0 ? (
+        <div className="orders-table-container">
+          <table className="orders-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>:
-      <p>No orders yet</p>
-      }
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td>{new Date(order.date).toLocaleDateString()}</td>
+                  <td>
+                    <div className="items-container">
+                      <span className="item-count">C: {order.clothes}</span>
+                      <span className="item-count">S: {order.saree}</span>
+                    </div>
+                  </td>
+                  <td>
+                    {editingIndex === index ? (
+                      <select 
+                        value={newStatus} 
+                        onChange={handleStatusChange}
+                        className="status-select"
+                      >
+                        <option value="Given">Given</option>
+                        <option value="Received">Received</option>
+                        <option value="Paid">Paid</option>
+                      </select>
+                    ) : (
+                      <span className={`status-badge status-${order.status.toLowerCase()}`}>
+                        {order.status}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {editingIndex === index ? (
+                      <button onClick={() => handleSaveClick(index)} className="btn btn-save">Save</button>
+                    ) : (
+                      <button onClick={() => handleEditClick(index)} className="btn btn-edit">Edit</button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p>No orders yet</p>
+      )}
       <button 
         onClick={() => setShowAddEntryForm(!showAddEntryForm)}
         className="btn btn-add"
@@ -163,4 +180,3 @@ export default function Orders() {
     </div>
   );
 }
- 
