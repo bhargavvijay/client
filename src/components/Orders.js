@@ -108,8 +108,8 @@ export default function Orders() {
                   <td>{new Date(order.date).toLocaleDateString()}</td>
                   <td>
                     <div className="items-container">
-                    <div>Clothes: {order.clothes}</div>
-                    <div>Saree: {order.saree}</div>
+                      <div className="item-count">Clothes: {order.clothes}</div>
+                      <div className="item-count">Saree: {order.saree}</div>
                     </div>
                   </td>
                   <td>

@@ -40,6 +40,7 @@
 
 .item-count {
   white-space: nowrap;
+  margin-bottom: 4px;
 }
 
 .status-badge {
@@ -139,11 +140,11 @@
   }
 
   .items-container {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
   }
 
   .item-count {
     font-size: 0.8em;
+    margin-bottom: 2px;
   }
 }
